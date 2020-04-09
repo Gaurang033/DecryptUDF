@@ -3,6 +3,7 @@ package net.allabouthadoop.libs;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -21,8 +22,8 @@ public class Demo {
 
             // Hashing key.
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            digest.update(key.getBytes("UTF-8"));
-            byte[] keyBytes = new byte[16];
+            digest.update(key.getBytes(StandardCharsets.UTF_8));
+            byte[] keyBytes = new byte[32];
             System.arraycopy(digest.digest(), 0, keyBytes, 0, keyBytes.length);
             SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, "AES");
 
@@ -42,7 +43,7 @@ public class Demo {
 
         public static String decrypt(String encryptedIvText, String key) throws Exception {
             int ivSize = 16;
-            int keySize = 16;
+            int keySize = 32;
             byte[] encryptedIvTextBytes = Base64.getDecoder().decode(encryptedIvText);
             // Extract IV.
             byte[] iv = new byte[ivSize];
@@ -70,7 +71,7 @@ public class Demo {
         }
 
     public static void main(String[] args) throws Exception {
-        String key = "shah";
+        String key = "eThWmZq4t7w!z$C&F)J@NcRfUjXn2r5";
         String clean = "Gaurang";
 
         String encrypted = encrypt(clean, key);
